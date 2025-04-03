@@ -1,0 +1,52 @@
+package Test;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.Alert;
+import java.util.Random;
+
+public class demoblaze {
+    public static void main(String[] args) throws InterruptedException {
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\ajithsaju\\chromedriver.exe"); // Update the path!
+
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        
+        driver.get("https://www.demoblaze.com/");
+        System.out.println("Title: " + driver.getTitle());
+
+        // Click on "Sign Up" button
+        WebElement signUpButton = driver.findElement(By.id("signin2"));
+        signUpButton.click();
+        Thread.sleep(2000); // Wait for modal to appear
+
+        // Generate a random username
+        String username = "user" + new Random().nextInt(1000);
+        String password = "Test@123";
+
+        // Enter username
+        WebElement usernameField = driver.findElement(By.id("sign-username"));
+        usernameField.sendKeys(username);
+
+        // Enter password
+        WebElement passwordField = driver.findElement(By.id("sign-password"));
+        passwordField.sendKeys(password);
+
+        // Click on "Sign Up" button
+        WebElement signUpConfirmButton = driver.findElement(By.xpath("//button[text()='Sign up']"));
+        signUpConfirmButton.click();
+
+        // Handle alert
+        Thread.sleep(2000); // Wait for alert
+        Alert alert = driver.switchTo().alert();
+        System.out.println("Alert Message: " + alert.getText());
+        alert.accept(); // Click OK on alert
+
+        // Print registered username
+        System.out.println("User Registered: " + username);
+
+        driver.quit(); // Close browser
+    }
+}

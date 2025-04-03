@@ -1,0 +1,43 @@
+package Test;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.Alert;
+import java.util.Random;
+
+public class demoblaze {
+    public static void main(String[] args) throws InterruptedException {
+        // Set the ChromeDriver path
+
+        // Launch Chrome browser
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+
+        // Open DemoBlaze website
+        driver.get("https://www.demoblaze.com/");
+        System.out.println("Page Title: " + driver.getTitle());
+
+        // Click on "Sign Up" button
+        WebElement signUpButton = driver.findElement(By.id("signin2"));
+        signUpButton.click();
+        Thread.sleep(2000); // Wait for modal to appear
+
+        // Generate a random username
+        String username = "user" + new Random().nextInt(1000);
+        String password = "Test@123";
+
+        // Enter username
+        WebElement usernameField = driver.findElement(By.xpath("//input[@id='sign-username']"));
+        usernameField.sendKeys(username);
+        System.out.println("Entered Username: " + username);
+
+        // Enter password
+        WebElement passwordField = driver.findElement(By.xpath("//input[@id='sign-password']"));
+        passwordField.sendKeys(password);
+        System.out.println("Entered Password: " + password);
+
+        //
+    }
+}

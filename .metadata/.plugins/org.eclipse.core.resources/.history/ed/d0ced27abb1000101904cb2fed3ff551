@@ -1,0 +1,101 @@
+package Test;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+import org.openqa.selenium.Alert;
+import java.util.Random;
+
+public class demoblaze {
+    public static void main(String[] args) throws InterruptedException {
+        // Set the ChromeDriver path
+
+        // Launch Chrome browser
+		WebDriverManager.chromedriver().setup();
+		WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+
+        // Open DemoBlaze website
+        driver.get("https://www.demoblaze.com/");
+        System.out.println("Page Title: " + driver.getTitle());
+
+     // Click on "Sign Up"
+        WebElement signUpButton = driver.findElement(By.id("signin2"));
+        signUpButton.click();
+        Thread.sleep(2000);
+
+        // Generate random username & set password
+        String username = "user" + new Random().nextInt(1000);
+        String password = "Test@123";
+
+        // Enter username and password
+        driver.findElement(By.xpath("//input[@id='sign-username']")).sendKeys(username);
+        driver.findElement(By.xpath("//input[@id='sign-password']")).sendKeys(password);
+        System.out.println("Signed up with Username: " + username);
+
+        // Click "Sign Up" button
+        driver.findElement(By.xpath("//button[normalize-space()='Sign up']")).click();
+        Thread.sleep(2000);
+
+        // Handle Sign Up Alert
+        Alert alert = driver.switchTo().alert();
+        System.out.println("Sign Up Alert: " + alert.getText());
+        alert.accept();
+        Thread.sleep(2000);
+
+        // Refresh page
+        driver.navigate().refresh();
+        Thread.sleep(2000);
+
+        // Click on "Log In"
+        driver.findElement(By.id("login2")).click();
+        Thread.sleep(2000);
+
+        // Enter login credentials
+        driver.findElement(By.xpath("//input[@id='loginusername']")).sendKeys(username);
+        driver.findElement(By.xpath("//input[@id='loginpassword']")).sendKeys(password);
+        driver.findElement(By.xpath("//button[normalize-space()='Log in']")).click();
+        Thread.sleep(3000);
+
+        // Verify login success
+        WebElement welcomeMessage = driver.findElement(By.id("nameofuser"));
+        if (welcomeMessage.getText().contains(username)) {
+            System.out.println("Login Successful: " + welcomeMessage.getText());
+        } else {
+            System.out.println("Login Failed!");
+        }
+
+        // Click on "Samsung Galaxy S6"
+        driver.findElement(By.xpath("//a[normalize-space()='Samsung galaxy s6']")).click();
+        Thread.sleep(2000);
+
+        // Click on "Add to Cart"
+        driver.findElement(By.xpath("//a[normalize-space()='Add to cart']")).click();
+        Thread.sleep(2000);
+
+        // Handle Add to Cart Alert
+        Alert cartAlert = driver.switchTo().alert();
+        System.out.println("Cart Alert: " + cartAlert.getText());
+        cartAlert.accept();
+        Thread.sleep(2000);
+
+        // Navigate to Cart
+        driver.findElement(By.xpath("//a[@id='cartur']")).click();
+        Thread.sleep(3000);
+
+        // Verify if Samsung Galaxy S6 is in the cart
+        WebElement productInCart = driver.findElement(By.xpath("//td[normalize-space()='Samsung galaxy s6']"));
+        if (productInCart.isDisplayed()) {
+            System.out.println("Product Successfully Added to Cart: " + productInCart.getText());
+        } else {
+            System.out.println("Product Not Found in Cart!");
+        }
+
+        // Close the browser
+        driver.quit();
+    }
+}
